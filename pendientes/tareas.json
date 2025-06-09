@@ -1,0 +1,31 @@
+[
+{
+  "codigoTarea": "T-123",
+  "titulo": "Implementar endpoint de tareas",
+  "descripcion": "Se debe crear el endpoint para guardar tareas nuevas",
+  "criteriosAceptacion": "Debe guardar correctamente en la base de datos",
+  "fechaInicio": "2025-06-08",
+  "fechaFin": "2025-06-15",
+  "tiempoDesarrollo": 16,
+ "estadoTarea": "Doing",
+  "usuarioIdAsignado": null,
+  "usuarioCreacion": "admin",
+  "usuarioModifica": null,
+  "activo": true
+},
+
+{
+  "codigoTarea": "T-124",
+  "titulo": "Implementar endpoint de tareas",
+  "descripcion": "Se debe crear el endpoint para guardar tareas nuevas",
+  "criteriosAceptacion": "Debe guardar correctamente en la base de datos",
+  "fechaInicio": "2025-06-08",
+  "fechaFin": "2025-06-15",
+  "tiempoDesarrollo": 16,
+ "estadoTarea": "Doing",
+  "usuarioIdAsignado": null,
+  "usuarioCreacion": "admin",
+  "usuarioModifica": null,
+  "activo": true
+}
+]

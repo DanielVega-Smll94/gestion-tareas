@@ -1,0 +1,38 @@
+server:
+  port: 8046
+
+spring:
+  datasource:
+    url: jdbc:postgresql://149.102.140.120:5437/taskdb
+    username: postgres
+    password: admin
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+
+
+  cloud:
+    config:
+      enabled: false
+
+
+
+  rabbitmq:
+    host: 149.102.140.120
+    port: 5672
+    username: guest
+    password: guest
+
+queue:
+  validar-usuario: validar-usuario-queue
+
+
+
+

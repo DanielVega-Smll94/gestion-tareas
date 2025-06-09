@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+
+
+  postgres-client:
+    image: postgres:14
+    container_name: postgres-client
+    ports:
+      - "5437:5432"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - pg_client_data:/var/lib/postgresql/data
+      - ./init-db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: rabbitmq-container
+    hostname: rabbitmq-host
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: unless-stopped
+    
+    
+  task-service:
+    image: task-service:latest
+    build:
+      context: ./ms-task-service
+    container_name: task-service
+    ports:
+      - "8046:8046"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://149.102.140.120:5437/taskdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_RABBITMQ_HOST: 149.102.140.120
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+      QUEUE_VALIDAR_USUARIO: validar-usuario-queue
+
+  client-service:
+    image: client-service:latest
+    build:
+      context: ./ms-gestion-tarea
+    container_name: client-service
+    ports:
+      - "8045:8045"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://149.102.140.120:5437/clientdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_RABBITMQ_HOST: 149.102.140.120
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+      QUEUE_VALIDAR_USUARIO: validar-usuario-queue
+
+  api-gateway:
+    image: api-gateway:latest
+    build:
+      context: ./api-gateway
+    ports:
+      - "8088:8088"
+    depends_on:
+      - client-service
+      - task-service
+    container_name: api-gateway
+
+volumes:
+  pg_client_data:

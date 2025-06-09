@@ -1,0 +1,20 @@
+server:
+  port: 8088
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: client-service
+          uri: http://149.102.140.120:8045
+          predicates:
+            - Path=/client/**
+          filters:
+            - StripPrefix=1
+
+        - id: task-service
+          uri: http://149.102.140.120:8046
+          predicates:
+            - Path=/task/**
+          filters:
+            - StripPrefix=1
