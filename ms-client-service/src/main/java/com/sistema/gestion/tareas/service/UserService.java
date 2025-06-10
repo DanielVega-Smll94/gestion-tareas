@@ -106,7 +106,6 @@ public class UserService {
                                         .message("Modificación Existosa")
                         );
             }else{
-                //Optional<User> userOptional =userRepository.findByEstadoTrueAndIdentificacion(Objects.requireNonNullElse(userS.getIdentificacion(), ""));
                 Optional<User> userOptional = userRepository.findByIdentificacion(Objects.requireNonNullElse(userS.getIdentificacion(), ""));
 
                 if (userOptional.isPresent()) {
@@ -117,13 +116,8 @@ public class UserService {
                                 ? "El número de Identificación: " + existing.getIdentificacion() + " ya se encuentra registrado"
                                 : "El número de Identificación: " + existing.getIdentificacion() + " ya se encuentra registrado pero está inactivo";
 
-                        return ResponseEntity.badRequest()
-                                .body(
-                                        genericResponse
-                                                .success(false)
-                                                .code(Status.BAD_REQUEST.getStatusCode())
-                                                .message(mensaje)
-                                );
+                        throw new GenericExceptionUtils(mensaje,Status.BAD_REQUEST,false);
+
                     }
                 }
 
@@ -137,18 +131,16 @@ public class UserService {
                                         .message("Guardado exitoso")
                         );
             }
+        }catch (GenericExceptionUtils ex){
+            throw new GenericExceptionUtils(ex.getMessage(),ex.getStatus(),false);
+
         }catch (Exception e){
-            return ResponseEntity.internalServerError()
-                    .body(
-                            genericResponse
-                                    .success(false)
-                                    .code(Status.INTERNAL_SERVER_ERROR.getStatusCode())
-                                    .message(
-                                            "MESSAGE: "+StringUtils.defaultString(e.getMessage()) +
-                                                    "CAUSE: "+Objects.toString(e.getCause(), StringUtils.EMPTY)
-                                    )
-                    );
+            throw new GenericExceptionUtils(
+                    "MESSAGE: "+StringUtils.defaultString(e.getMessage()) +
+                            "CAUSE: "+Objects.toString(e.getCause(), StringUtils.EMPTY)
+                    ,Status.INTERNAL_SERVER_ERROR,false);
         }
+
     }
 
 
