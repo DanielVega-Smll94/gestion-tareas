@@ -34,5 +34,10 @@ queue:
   validar-usuario: validar-usuario-queue
 
 
-
+sftp:
+  host: 149.102.140.120
+  port: 22
+  user: root
+  password: your-password
+  file-path: /usr/local/gestion-tareas/pendientes/tareas.json
 

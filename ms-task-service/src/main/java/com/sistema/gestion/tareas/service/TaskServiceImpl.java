@@ -47,7 +47,7 @@ public class TaskServiceImpl implements TaskService
             List<TaskDto> taskDtoList = taskMapper.toTaskDtoList(taskList);
             genericResponse.data(taskDtoList)
                     .success(true)
-                    .code(200)
+                    .code(Status.OK.getStatusCode())
                     .message("Consulta Existosa");
 
         }, () -> {
@@ -67,12 +67,12 @@ public class TaskServiceImpl implements TaskService
             TaskDto taskDto = taskMapper.taskToTaskDto(task);
             genericResponse.data(taskDto)
                     .success(true)
-                    .code(200)
+                    .code(Status.OK.getStatusCode())
                     .message("Consulta Existosa");
 
         }, () -> {
             genericResponse.success(false)
-                    .code(404)
+                    .code(Status.NOT_FOUND.getStatusCode())
                     .message("No se encontraron Datos");
         });
 
@@ -98,7 +98,7 @@ public class TaskServiceImpl implements TaskService
                     taskMap.setActivo(task.getActivo());
                     genericResponse.data(taskMapper.taskToTaskDto(taskRepository.save(taskMap)))
                             .success(true)
-                            .code(200)
+                            .code(Status.OK.getStatusCode())
                             .message("Modificación Existosa");
 
                 }, () ->
@@ -109,7 +109,7 @@ public class TaskServiceImpl implements TaskService
                     {
                         genericResponse
                                 .success(false)
-                                .code(400)
+                                .code(Status.BAD_REQUEST.getStatusCode())
                                 .message("EL Codigo de la tarea : "+taskOptional.get().getCodigoTarea() +" ya se encuentra registrada"  );
                     }
                     else
@@ -118,7 +118,7 @@ public class TaskServiceImpl implements TaskService
                         Task taskSave= taskRepository.save(taskMapper.taskDtoToTask(taskS));
                         genericResponse.data(taskMapper.taskToTaskDto(taskSave))
                                 .success(true)
-                                .code(201)
+                                .code(Status.CREATED.getStatusCode())
                                 .message("Guardado Existosa");
                     }
 
@@ -139,13 +139,13 @@ public class TaskServiceImpl implements TaskService
             Task taskSave= taskRepository.save(task);
             genericResponse.data(taskMapper.taskToTaskDto(taskSave))
                     .success(true)
-                    .code(200)
+                    .code(Status.OK.getStatusCode())
                     .message("Elimino Existosamente");
 
         }, () ->
         {
             genericResponse.success(false)
-                    .code(404)
+                    .code(Status.NOT_FOUND.getStatusCode())
                     .message("No se Elimino");
         });
 
@@ -169,7 +169,7 @@ public class TaskServiceImpl implements TaskService
 
         }else {
             return    genericResponse
-                    .code(400)
+                    .code(Status.BAD_REQUEST.getStatusCode())
                     .success(false)
                     .message("No se puede asignar una Estado no valido "+nuevoEstado);
         }
@@ -181,14 +181,13 @@ public class TaskServiceImpl implements TaskService
             Task taskSave= taskRepository.save(task);
             genericResponse.data(taskMapper.taskToTaskDto(taskSave))
                     .success(true)
-                    .code(200)
+                    .code(Status.OK.getStatusCode())
                     .message("Se Actualizo el Estado  "+nuevoEstado+"  Existosamente");
 
         }, () ->
         {
-
             genericResponse.success(false)
-                    .code(404)
+                    .code(Status.NOT_FOUND.getStatusCode())
                     .message("No se Actualizo el Estado  "+nuevoEstado);
 
         });
@@ -207,8 +206,8 @@ public class TaskServiceImpl implements TaskService
             Task task = taskOptional.get();
             if (task.getEstadoTarea().equalsIgnoreCase(EstadoTarea.DONE.getLabel()))
             {
-             return    genericResponse
-                        .code(400)
+                return    genericResponse
+                        .code(Status.BAD_REQUEST.getStatusCode())
                         .success(false)
                         .message("No se puede asignar una task finalizada (DONE).");
             }
@@ -218,7 +217,7 @@ public class TaskServiceImpl implements TaskService
             if (!usuarioExiste)
             {
                 return    genericResponse
-                        .code(404)
+                        .code(Status.NOT_FOUND.getStatusCode())
                         .success(false)
                         .message("El usuario con ID " + idUsuario + " no existe.");
             }
@@ -228,16 +227,16 @@ public class TaskServiceImpl implements TaskService
             //(puede ser un log en el sistema)
             log.info("TAREA ASIGNADA -> Task '{}' fue asignada al usuario {}", taskAsignada.getCodigoTarea(), idUsuario);
             return    genericResponse
-                    .code(200)
+                    .code(Status.OK.getStatusCode())
                     .success(true)
                     .message("TAREA ASIGNADA -> Task "+taskAsignada.getCodigoTarea()+" fue asignada al usuario "+idUsuario);
 
 
         }else
         {
-
+            
             return    genericResponse
-                    .code(404)
+                    .code(Status.NOT_FOUND.getStatusCode())
                     .success(false)
                     .message("la Tarea " + codigoTarea + " no existe.");
         }
@@ -255,7 +254,7 @@ public class TaskServiceImpl implements TaskService
             List<TaskDto> taskDtoList = taskMapper.toTaskDtoList(taskList);
             genericResponse.data(taskDtoList)
                     .success(true)
-                    .code(200)
+                    .code(Status.OK.getStatusCode())
                     .message("Consulta Existosa");
 
         }, () -> {

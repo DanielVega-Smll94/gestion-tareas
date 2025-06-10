@@ -6,7 +6,6 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import com.sistema.gestion.tareas.dto.TaskDto;
 import com.sistema.gestion.tareas.mapper.TaskMapper;
-import com.sistema.gestion.tareas.model.Task;
 import com.sistema.gestion.tareas.repository.TaskRepository;
 import com.sistema.gestion.tareas.service.TaskService;
 import com.sistema.gestion.tareas.util.GenericResponse;
@@ -20,34 +19,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
+import com.sistema.gestion.tareas.config.SftpProperties;
 
+@RequiredArgsConstructor
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class FtpTaskImporter {
 
     private final TaskRepository taskRepository;
     private final TaskService taskService;
     private final ObjectMapper objectMapper;
-
     private final TaskMapper taskMapper;
+    private final SftpProperties sftpProperties;
 
-    private final String sftpHost = "";
-    private final int sftpPort = 22;
-    private final String sftpUser = "root";
-    private final String sftpPassword = "";
-    private final String sftpFilePath = "/usr/local/gestion-tareas/pendientes/tareas.json";
-
-    // Ejecutar cada 5 minutos 300000
-    @Scheduled(fixedRate = 300)
+    @Scheduled(fixedRate = 300000)
     public void importarTareasDesdeSFTP() {
         Session session = null;
         ChannelSftp channelSftp = null;
 
         try {
             JSch jsch = new JSch();
-            session = jsch.getSession(sftpUser, sftpHost, sftpPort);
-            session.setPassword(sftpPassword);
+            session = jsch.getSession(sftpProperties.getUser(), sftpProperties.getHost(), sftpProperties.getPort());
+            session.setPassword(sftpProperties.getPassword());
 
             Properties config = new Properties();
             config.put("StrictHostKeyChecking", "no");
@@ -57,38 +50,23 @@ public class FtpTaskImporter {
             channelSftp = (ChannelSftp) session.openChannel("sftp");
             channelSftp.connect();
 
-            try (InputStream input = channelSftp.get(sftpFilePath))
-            {
+            try (InputStream input = channelSftp.get(sftpProperties.getFilePath())) {
                 List<TaskDto> tareas = objectMapper.readValue(input, new TypeReference<>() {});
-                //tareas.forEach(taskRepository::save);
-                tareas.parallelStream()
-                        .forEach(xcv->{
-                            GenericResponse genericResponse = taskService.saveUpdateTask(xcv);
-                            if (genericResponse.getSuccess())
-                            {
-                                log.info("Importadas {} tareas desde SFTP", tareas.size());
-                            }else
-                            {
-                                System.out.println("Tareas desde SFTP"+genericResponse.getMessage());
-                                log.info("Tareas desde SFTP",genericResponse);
-                            }
-
-                        });
-
+                tareas.parallelStream().forEach(taskDto -> {
+                    GenericResponse response = taskService.saveUpdateTask(taskDto);
+                    if (response.getSuccess()) {
+                        log.info("Importadas {} tareas desde SFTP", tareas.size());
+                    } else {
+                        log.warn("Tareas desde SFTP: {}", response.getMessage());
+                    }
+                });
             }
-
-            // Opcional: eliminar el archivo después de procesarlo
-           // channelSftp.rm(sftpFilePath);
 
         } catch (Exception e) {
             log.error("Error leyendo tareas desde SFTP", e);
         } finally {
-            if (channelSftp != null && channelSftp.isConnected()) {
-                channelSftp.disconnect();
-            }
-            if (session != null && session.isConnected()) {
-                session.disconnect();
-            }
+            if (channelSftp != null && channelSftp.isConnected()) channelSftp.disconnect();
+            if (session != null && session.isConnected()) session.disconnect();
         }
     }
 }
