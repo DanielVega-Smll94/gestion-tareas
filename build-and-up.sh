@@ -7,8 +7,8 @@ cd /usr/local/gestion-tareas/ms-task-service
 mvn clean package -DskipTests
 cd ..
 
-echo "🔧 Compilando ms-gestion-tarea..."
-cd /usr/local/gestion-tareas/ms-gestion-tarea
+echo "🔧 Compilando ms-client-service..."
+cd /usr/local/gestion-tareas/ms-client-service
 mvn clean package -DskipTests
 cd ..
 

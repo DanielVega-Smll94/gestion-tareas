@@ -4,7 +4,7 @@ Este proyecto implementa un sistema de gestión de tareas para la empresa **XYZ*
 
 ## 🧩 Microservicios
 
-- `ms-gestion-tarea` (Client Service)
+- `ms-client-service` (Client Service)
 - `ms-task-service` (Task Service)
 - `api-gateway` (Gateway)
 - Base de datos: PostgreSQL 14
@@ -83,7 +83,7 @@ Este proyecto implementa un sistema de gestión de tareas para la empresa **XYZ*
 | Servicio                       | URL                                                       	|
 |--------------------------------|--------------------------------------------------------------|
 | **RabbitMQ**                   | http://149.102.140.120:15672/#/                           	|
-| **Swagger - ms-gestion-tarea** | http://149.102.140.120:8045/swagger-ui/index.html         	|
+| **Swagger - ms-client-service** | http://149.102.140.120:8045/swagger-ui/index.html         	|
 | **Swagger - ms-task-service**  | http://149.102.140.120:8046/swagger-ui/index.html 		 	|
 | **Postman Docs**               | https://documenter.getpostman.com/view/45282445/2sB2x3nYh1	|
 
@@ -119,7 +119,7 @@ mvn test
 
 ```
 gestion-tareas/
-├── ms-gestion-tarea/
+├── ms-client-service/
 ├── ms-task-service/
 ├── gateway/
 ├── diagramas/

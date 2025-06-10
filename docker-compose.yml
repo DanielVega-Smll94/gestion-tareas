@@ -47,7 +47,7 @@ services:
   client-service:
     image: client-service:latest
     build:
-      context: ./ms-gestion-tarea
+      context: ./ms-client-service
     container_name: client-service
     ports:
       - "8045:8045"
