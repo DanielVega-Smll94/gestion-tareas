@@ -92,12 +92,13 @@ Este proyecto implementa un sistema de gestión de tareas para la empresa **XYZ*
 ## 🔧 Funcionalidades Implementadas
 
 - **F1**: CRUD completo para Usuarios y Tareas (`POST`, `GET`, `PUT`, `DELETE`)
-- **F2**: Actualización del estado de una tarea usando `PATCH`
+  - No se utilizo el DELETE fisico, solo se hizo un cambio de estado a false.
+- **F2**: Actualización del estado de una tarea
 - **F3**: Asignación de una tarea a un usuario con validaciones:
   - Si la tarea o el usuario no existen, se devuelve error.
   - Si la tarea está en estado `DONE`, no se puede asignar.
 - **F4**: Notificación (mediante log del sistema) al asignar tareas.
-- **F5**: Consulta de tareas por usuario (event-driven con RabbitMQ).
+- **F5**: Consulta de tareas por usuario.
 - **F6**: Lectura de archivo JSON desde servidor FTP para registrar tareas automáticamente.
 - **F7**: Pruebas unitarias e integración en `ms-task-service`.
 - **F8**: Proyecto dockerizado, incluyendo documentación con Swagger y Postman.
@@ -149,7 +150,7 @@ Para que el sistema pueda importar tareas automáticamente desde un archivo `.js
 - Debe estar activo y accesible desde el microservicio `ms-task-service`.
 - El archivo JSON debe estar ubicado en la ruta configurada (`sftpFilePath`), por defecto:
   Colocar la ruta del archivo de la siguiente forma o en el directorio que prefieras: /usr/local/gestion-tareas/pendientes/tareas.json
-- Procura cambiar el host (IP) y clave de tu servidor 
+- Procura cambiar el host (IP) y clave de tu servidor en el archivo .application.yml se encuentra en la sección sftp el password
 
 
 ---

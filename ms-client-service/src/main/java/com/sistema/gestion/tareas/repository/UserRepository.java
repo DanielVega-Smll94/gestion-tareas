@@ -11,10 +11,12 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<User, Long>
 {
 
-    Optional<List<User>> findAllByEstadoTrue();
+    List<User> findAllByEstadoTrue();
 
     Optional<User> findByEstadoTrueAndId(long idUser);
 
 
     Optional<User> findByEstadoTrueAndIdentificacion(String identificacion );
+    Optional<User> findByIdentificacion(String identificacion );
+
 }
