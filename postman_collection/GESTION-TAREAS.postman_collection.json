@@ -1,0 +1,487 @@
+{
+	"info": {
+		"_postman_id": "a2d5182a-d612-4c60-b98e-4de44efb8a9e",
+		"name": "GESTION-TAREAS",
+		"description": "**Sistema de Gestión de Tareas**  \n  \nEste proyecto expone servicios REST para la gestión de usuarios y tareas. La arquitectura está basada en microservicios, utilizando Spring Boot y RabbitMQ para la comunicación entre servicios.  \n  \nIncluye operaciones CRUD para usuarios y funcionalidades para la asignación, consulta y actualización de tareas.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45282445",
+		"_collection_link": "https://danielvega-1359901.postman.co/workspace/de4098ef-a24b-432e-8845-78c49c087bb6/collection/45282445-a2d5182a-d612-4c60-b98e-4de44efb8a9e?action=share&source=collection_link&creator=45282445"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "findAllUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://149.102.140.120:8088/client/api/users/findAllUser/",
+							"protocol": "http",
+							"host": [
+								"149",
+								"102",
+								"140",
+								"120"
+							],
+							"port": "8088",
+							"path": [
+								"client",
+								"api",
+								"users",
+								"findAllUser",
+								""
+							]
+						},
+						"description": "**Descripción**: Retorna una lista de todos los usuarios registrados en el sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "findByIdUser",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"identificacion\": \"123456789\",\r\n  \"nombres\": \"Juan\",\r\n  \"apellidos\": \"Pérez\",\r\n  \"edad\": 30,\r\n  \"cargo\": \"Ingeniero\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://149.102.140.120:8045/api/users/findByIdUser/?id=1",
+							"protocol": "http",
+							"host": [
+								"149",
+								"102",
+								"140",
+								"120"
+							],
+							"port": "8045",
+							"path": [
+								"api",
+								"users",
+								"findByIdUser",
+								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "**Descripción**: Busca un usuario por su ID.\n\n**Parámetros**: `id` (int) - ID del usuario"
+					},
+					"response": []
+				},
+				{
+					"name": "saveUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n    \"id\": null,\r\n    \"identificacion\": \"0919195957\",\r\n    \"nombres\": \"Laura\",\r\n    \"apellidos\": \"Martínez López\",\r\n    \"edad\": 30,\r\n    \"cargo\": \"Desarrolladora Backend\",\r\n    \"estado\": true\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8045/api/users/saveUser/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8045",
+							"path": [
+								"api",
+								"users",
+								"saveUser",
+								""
+							]
+						},
+						"description": "**Descripción**: Registra un nuevo usuario en el sistema.  \n**Body**: Objeto `User` en formato JSON  \n**Respuesta esperada**: Usuario creado envuelto en una clase Generic Response"
+					},
+					"response": []
+				},
+				{
+					"name": "updateUser",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n    \"id\": 1,\r\n    \"identificacion\": \"1234567890\",\r\n    \"nombres\": \"Laura\",\r\n    \"apellidos\": \"Martínez López\",\r\n    \"edad\": 30,\r\n    \"cargo\": \"Desarrolladora Backend\",\r\n    \"estado\": true\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://149.102.140.120:8045/api/users/updateUser/",
+							"protocol": "http",
+							"host": [
+								"149",
+								"102",
+								"140",
+								"120"
+							],
+							"port": "8045",
+							"path": [
+								"api",
+								"users",
+								"updateUser",
+								""
+							]
+						},
+						"description": "**Descripción**: Actualiza los datos de un usuario existente.  \n**Body**: Objeto `User` actualizado  \n**Respuesta esperada**: Usuario actualizado en una clase Generic Response"
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUser",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://149.102.140.120:8045/api/users/deleteUser/?id=1",
+							"protocol": "http",
+							"host": [
+								"149",
+								"102",
+								"140",
+								"120"
+							],
+							"port": "8045",
+							"path": [
+								"api",
+								"users",
+								"deleteUser",
+								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "**Descripción**: Elimina un usuario según su ID.  \n**Parámetros**: `id` (int) - ID del usuario"
+					},
+					"response": []
+				}
+			],
+			"description": "Este módulo permite administrar los usuarios del sistema. Se pueden consultar todos los usuarios, buscar por ID, crear nuevos usuarios, actualizarlos o eliminarlos."
+		},
+		{
+			"name": "Task",
+			"item": [
+				{
+					"name": "findAllTask",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://149.102.140.120:8046/api/task/findAllTask/",
+							"protocol": "http",
+							"host": [
+								"149",
+								"102",
+								"140",
+								"120"
+							],
+							"port": "8046",
+							"path": [
+								"api",
+								"task",
+								"findAllTask",
+								""
+							]
+						},
+						"description": "**Descripción**: Obtiene todas las tareas registradas en el sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "findByIdTask",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://149.102.140.120:8046/api/task/findByIdTask/?id=1",
+							"protocol": "http",
+							"host": [
+								"149",
+								"102",
+								"140",
+								"120"
+							],
+							"port": "8046",
+							"path": [
+								"api",
+								"task",
+								"findByIdTask",
+								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "**Descripción**: Busca una tarea específica por su ID.\n\n**Parámetros**: `id` (int) - ID de la tarea"
+					},
+					"response": []
+				},
+				{
+					"name": "saveTask",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"codigoTarea\": \"T-123\",\r\n  \"titulo\": \"Implementar endpoint de tareas\",\r\n  \"descripcion\": \"Se debe crear el endpoint para guardar tareas nuevas\",\r\n  \"criteriosAceptacion\": \"Debe guardar correctamente en la base de datos\",\r\n  \"fechaInicio\": \"2025-06-08\",\r\n  \"fechaFin\": \"2025-06-15\",\r\n  \"tiempoDesarrollo\": 16,\r\n \"estadoTarea\": \"Doing\",\r\n  \"usuarioIdAsignado\": 1001,\r\n  \"usuarioCreacion\": \"admin\",\r\n  \"usuarioModifica\": null,\r\n  \"activo\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://149.102.140.120:8046/api/task/saveTask/",
+							"protocol": "http",
+							"host": [
+								"149",
+								"102",
+								"140",
+								"120"
+							],
+							"port": "8046",
+							"path": [
+								"api",
+								"task",
+								"saveTask",
+								""
+							]
+						},
+						"description": "**Descripción**: Crea una nueva tarea.  \n**Body**: Objeto `Task` (JSON)"
+					},
+					"response": []
+				},
+				{
+					"name": "updateTask",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 467,\r\n    \"codigoTarea\": \"T-12311\",\r\n    \"titulo\": \"Implementar endpoint de tareas\",\r\n    \"descripcion\": \"Se debe crear el endpoint para guardar tareas nuevas\",\r\n    \"criteriosAceptacion\": \"Debe guardar correctamente en la base de datos\",\r\n    \"fechaInicio\": \"2025-06-08\",\r\n    \"fechaFin\": \"2025-06-15\",\r\n    \"tiempoDesarrollo\": 16,\r\n    \"estadoTarea\": \"Done\",\r\n    \"usuarioIdAsignado\": 1001,\r\n    \"usuarioCreacion\": \"admin\",\r\n    \"usuarioModifica\": null,\r\n    \"activo\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://149.102.140.120:8046/api/task/updateTask/",
+							"protocol": "http",
+							"host": [
+								"149",
+								"102",
+								"140",
+								"120"
+							],
+							"port": "8046",
+							"path": [
+								"api",
+								"task",
+								"updateTask",
+								""
+							]
+						},
+						"description": "**Descripción**: Actualiza una tarea existente.  \n**Body**: Objeto `Task` actualizadoEndFragment"
+					},
+					"response": []
+				},
+				{
+					"name": "deleteTask",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://149.102.140.120:8046/api/task/deleteTask/?id=222",
+							"protocol": "http",
+							"host": [
+								"149",
+								"102",
+								"140",
+								"120"
+							],
+							"port": "8046",
+							"path": [
+								"api",
+								"task",
+								"deleteTask",
+								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "222"
+								}
+							]
+						},
+						"description": "**Descripción**: Elimina una tarea según su ID.  \n**Parámetros**: `id` (int)"
+					},
+					"response": []
+				},
+				{
+					"name": "actualizarEstado",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://149.102.140.120:8046/api/task/actualizarEstado/?id=470&nuevoEstado=Doing",
+							"protocol": "http",
+							"host": [
+								"149",
+								"102",
+								"140",
+								"120"
+							],
+							"port": "8046",
+							"path": [
+								"api",
+								"task",
+								"actualizarEstado",
+								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "470"
+								},
+								{
+									"key": "nuevoEstado",
+									"value": "Doing"
+								}
+							]
+						},
+						"description": "**Descripción**: Cambia el estado de una tarea (Backlog, Doing, In Review, Done).  \n**Body**: Objeto JSON con `idTarea` y `nuevoEstado`"
+					},
+					"response": []
+				},
+				{
+					"name": "validarUsuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8046/api/task/validarUsuario/?id=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8046",
+							"path": [
+								"api",
+								"task",
+								"validarUsuario",
+								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						},
+						"description": "**Descripción**: Verifica si un usuario existe antes de asignar la tarea.  \n**Parámetros**: `idUsuario` (int)"
+					},
+					"response": []
+				},
+				{
+					"name": "asignarTask",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://149.102.140.120:8046/api/task/asignarTask/?codigoTarea=T-1236&idUsuario=5",
+							"protocol": "http",
+							"host": [
+								"149",
+								"102",
+								"140",
+								"120"
+							],
+							"port": "8046",
+							"path": [
+								"api",
+								"task",
+								"asignarTask",
+								""
+							],
+							"query": [
+								{
+									"key": "codigoTarea",
+									"value": "T-1236"
+								},
+								{
+									"key": "idUsuario",
+									"value": "5"
+								}
+							]
+						},
+						"description": "**Descripción**: Este api permite asignar una tarea a un usuario. Pero previamente realiza la validación de que la tarea este activa por el codigo si no lo esta termina con un generic response y con código de error 400. Si llega a estar valida el usuario el cual tiene un metodo personalizado que verifica en el rabbitMQ, si encuentra el usuario permite asignar la tarea dando una respuesta con codigo 200.  \n**Body**: JSON con `idTarea` y `idUsuario`"
+					},
+					"response": []
+				},
+				{
+					"name": "tareasPorUsuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://149.102.140.120:8046/api/task/tareasPorUsuario/?idUsuario=5",
+							"protocol": "http",
+							"host": [
+								"149",
+								"102",
+								"140",
+								"120"
+							],
+							"port": "8046",
+							"path": [
+								"api",
+								"task",
+								"tareasPorUsuario",
+								""
+							],
+							"query": [
+								{
+									"key": "idUsuario",
+									"value": "5"
+								}
+							]
+						},
+						"description": "**Descripción**: Devuelve todas las tareas asignadas a un usuario.  \n**Parámetros**: `idUsuario` (int)"
+					},
+					"response": []
+				}
+			],
+			"description": "Permite gestionar las tareas de los usuarios. Incluye funcionalidades para consultar, crear, actualizar, eliminar tareas y asignarlas a usuarios. También valida usuarios y actualiza estados de tareas."
+		}
+	]
+}
